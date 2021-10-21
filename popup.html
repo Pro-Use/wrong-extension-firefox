@@ -1,0 +1,43 @@
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <link rel="stylesheet" type="text/css" href="popup.css">
+    </head>
+    <body>
+      <div class="button-conatiner">
+        <div id="content">
+          <!--works-->
+          <div id="works-popup">
+            <div class="popup-text center" id="popup-info">
+                Popup set title:
+                <div id="popup-set-title"> </div>
+                Popup title:
+                <div id="popup-title"> </div>
+                Popup time:
+                <div id="popup-time"> </div>
+                Timer:
+                <div id="popup-timer"> <span id="timer">-</span></div>
+            </div>
+            <div class="popup-text center" id="paused" style="display:none">
+                <div id="popup-paused" class="blinking">PAUSED</div>
+            </div>
+          </div>
+          <!--end works-->
+          <!--close-->
+          <div id="close-popup" class="button-conatiner">
+            <div id="ctrl-link-pause" class="button">Pause</div>
+            <div class="popup-text button" id="closeAll">
+                <div id="close-button">
+                   <label class="switch">
+                       <input id="pause" type="checkbox" checked>
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+            </div>
+          </div>
+          <!--end close-->
+        </div>
+       </div>
+      <script src="popup.js"></script>
+    </body>
+  </html>
