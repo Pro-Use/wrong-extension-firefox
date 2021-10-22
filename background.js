@@ -128,7 +128,7 @@ function pause_toggle() {
 }
 
 popupWindow = async (popup_json) => {
-    console.log(popup_json);
+    infoWindow(popup_json);
     let fullscreen = popup_json.fullscreen === "true";
     if (fullscreen) {
        var dims = []; 
@@ -171,7 +171,7 @@ popupWindow = async (popup_json) => {
     console.log("opened window with id:"+id);
 };
 
-infoWindow = async (artist) => {
+infoWindow = async (popup_json) => {
     let width = 450;
     let height = 500;
     let dims = [
@@ -180,8 +180,7 @@ infoWindow = async (artist) => {
       width,
       height
     ];
-    let id = await openWindow(dims, false,"/popups/info/info_window.html");
-    chrome.storage.local.set({info_wid_id: id});
+    let id = await openWindow(dims, false, popup_json.info_url);
 };
 
 prWindow = async (artist) => {
