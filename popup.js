@@ -14,21 +14,23 @@ buttons.forEach(function(currentBtn){
 });
 
 //launch live || all artists
-var live_counter = 0;
-var artists_counter = 0;
+var trigger_counter = 0;
+var refresh_counter = 0;
 
 document.addEventListener('keydown', logKey);
 
 function logKey(e) {
   if (e.code === "KeyN"){
-      live_counter += 1;
-      if (live_counter > 3) {
+      trigger_counter += 1;
+      if (trigger_counter > 3) {
            port.postMessage("next_popup");
+           trigger_counter = 0;
       }
-  } else if (e.code === "KeyA"){
-      artists_counter += 1;
-      if (artists_counter > 3) {
-           port.postMessage("all-artists");
+  } else if (e.code === "KeyR"){
+      refresh_counter += 1;
+      if (refresh_counter > 3) {
+           port.postMessage("refresh");
+           window.close();
       }
   }
 }
