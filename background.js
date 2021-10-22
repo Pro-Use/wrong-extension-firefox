@@ -42,6 +42,8 @@ chrome.idle.onStateChanged.addListener(function() {
                    console.log(result[next_popup]);
                    popupWindow(result[next_popup]);
                 });
+           } else if (msg === 'refresh'){
+               create_alarms();
            }
       });
  });
