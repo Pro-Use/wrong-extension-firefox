@@ -35,6 +35,32 @@ function logKey(e) {
   }
 }
 
+// Start timer text
+function startTimer(next_ts) {
+    var x = setInterval(function() {
+        // Get today's date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now and the count down date
+        var distance = next_ts - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        hours += (days * 24);
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        // Display the result in the element with id="demo"
+        countdown_str = hours + "h " + minutes + "m " + seconds + "s ";
+        document.getElementById("timer").innerHTML = countdown_str;
+
+        // If the count down is finished, write some text
+        if (distance < 0) {
+          clearInterval(x);
+        }
+    }, 1000);
+}
+
 //pause state
 var pause_button = document.getElementById("pause");
 
@@ -98,32 +124,28 @@ chrome.alarms.getAll(function (alarms) {
                 set_title.innerHTML = next_popup.title;
                 title.innerHTML = next_popup.popup_title;
                 time.innerHTML = next_popup.time;
+                startTimer(next_ts);
         });
     } else {
-        set_title.innerHTML = "No popups scheduled for today...";
-    }
-    // Start timer text
-    if (next_ts) {
-        var x = setInterval(function() {
-            // Get today's date and time
-            var now = new Date().getTime();
-
-            // Find the distance between now and the count down date
-            var distance = next_ts - now;
-
-            // Time calculations for days, hours, minutes and seconds
-            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            // Display the result in the element with id="demo"
-            countdown_str = hours + "h " + minutes + "m " + seconds + "s ";
-            document.getElementById("timer").innerHTML = countdown_str;
-
-            // If the count down is finished, write some text
-            if (distance < 0) {
-              clearInterval(x);
+        chrome.storage.local.get(['nextPopup'], function(result) {
+            next_popup = result['nextPopup'];
+            console.log(next_popup);
+            if (next_popup === null) {
+                set_title.innerHTML = "No popups currently scheduled...";
+            } else {
+                let next_date = next_popup.date.split("-");
+                let next_time = next_popup.time.split(":");
+                next_date = new Date(next_date[0], (next_date[1] - 1), next_date[2], next_time[0], next_time[1]);
+                next_ts = next_date.getTime();
+                console.log(next_popup.time);
+                set_title.innerHTML = next_popup.title;
+                title.innerHTML = next_popup.popup_title;
+                time.innerHTML = next_popup.time;
+                startTimer(next_ts);
             }
-        }, 1000);
+        });
     }
 });
+
+
 
