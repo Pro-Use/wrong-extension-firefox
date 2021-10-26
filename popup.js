@@ -16,6 +16,10 @@ buttons.forEach(function(currentBtn){
 var trigger_counter = 0;
 var refresh_counter = 0;
 
+var paused;
+
+var container = document.querySelector(".container");
+
 document.addEventListener('keydown', logKey);
 
 function logKey(e) {
@@ -50,9 +54,8 @@ function startTimer(next_ts) {
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
         // Display the result in the element with id="demo"
-        countdown_str = hours + "h " + minutes + "m " + seconds + "s ";
+        countdown_str = ('0' + hours).slice(-2) + ":" + ('0' + minutes).slice(-2) + ":" + ('0' + seconds).slice(-2);
         document.getElementById("timer").innerHTML = countdown_str;
-
         // If the count down is finished, write some text
         if (distance < 0) {
           clearInterval(x);
@@ -64,28 +67,33 @@ function startTimer(next_ts) {
 var pause_button = document.getElementById("pause");
 
 chrome.storage.local.get(['paused'], function(result) {
-    let paused = result.paused;
-    console.log("paused state:" + paused);
+    paused = result.paused;
     if (paused === null || paused === false) {
-        console.log("Unpaused");
         pause_button.checked = true;
-        // document.getElementById("popup-info").style.display = "block";
-        // document.getElementById("paused").style.display = "none";
     } else {
-        console.log("Paused");
         pause_button.checked = false;
-        // document.getElementById("popup-info").style.display = "none";
-        // document.getElementById("paused").style.display = "block";
     }
+    checkStatus();
 });
+
+
+
+function checkStatus(){
+    if(paused){
+        container.classList.add("paused");
+    }else{
+        container.classList.remove("paused");
+    }
+}
 
 pause_button.addEventListener( 'change', function() {
     port.postMessage("pause_toggle");
     if (pause_button.checked === true) {
-        // location.reload();
+        paused = false;
+        checkStatus();
     } else {
-        // document.getElementById("popup-info").style.display = "none";
-        // document.getElementById("paused").style.display = "block";
+        paused = true;
+        checkStatus();
     }
 });
 

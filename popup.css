@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
 
 body, html{
-    padding:0;margin:0;
+    padding: 3px;
+    margin: 0;
+    background: #fefefe;
   }
   
   *, *:before, *:after {
@@ -15,7 +17,7 @@ body, html{
 
 .container {
     font-size: 18px;
-    font-family: futura-pt,sans-serif;
+    font-family: futura-pt, sans-serif;
     font-weight: 500;
     font-style: normal;
     margin: 0;
@@ -29,14 +31,40 @@ body, html{
     width: 350px;
 }
 
+.paused img, .paused section{
+  opacity: .4;
+  transition: opacity .2s ease-in-out;
+}
+
+.paused .paused-display{
+  opacity: .4;
+  transition: all .2s ease-in-out;
+  top: 0;
+}
+
+.paused .popup-timer{
+  /* opacity: 0; */
+  transition: all .2s ease-in-out;
+  top: -168px;
+}
+
+.popup-timer, .paused-display, section, img{
+  transition: opacity .2s ease-in-out;
+}
+
+
+.paused .switch{
+  opacity: 1;
+}
+
 i, em{
-    font-family: futura-pt,sans-serif;
+    font-family: futura-pt, sans-serif;
     font-weight: 500;
     font-style: italic;
 }
 
 b, strong{
-    font-family: futura-pt-bold,sans-serif;
+    font-family: futura-pt-bold, sans-serif;
     font-weight: 700;
     font-style: normal;
 }
@@ -63,17 +91,22 @@ header{
     padding-top: 1.5em;
 }
 
+.box-footer, .box-header{
+  font-size: 14px;
+}
+
 p{
     margin: 0;
     padding: 0;
 }
 
 .timer-box{
-    min-height: 168px;
+    height: 168px;
     position: relative;
+    overflow: hidden;
 }
 
-#popup-timer{
+.popup-timer{
     position: absolute;
     width: 100%;
     height: 100%;
@@ -86,6 +119,28 @@ p{
     flex-direction: column;
     justify-content: center;
     font-size: 45px;
+    z-index: 1;
+    transition: all .2s ease-in-out;
+}
+
+.paused-display{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  line-height: 100%;
+  text-align: center;
+  top: 168px;
+  left: 0;
+  font-family: futura-pt-bold, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 45px;
+  z-index: 2;
+  opacity: 0;
+  background-color: white;
+  text-transform: uppercase;
+  transition: all .2s ease-in-out;
 }
 
 div#content {
@@ -112,15 +167,28 @@ footer{
 
 /* TOGGLE BUTTON STYLES */
 
+.switch:hover .slider{
+  outline-color: blue;
+}
+
+.switch:hover .slider-label:before{
+  color: blue;
+}
+
+.switch:hover .slider:before{
+  background-color: blue;
+}
+
 .switch {
     position: relative;
     display: inline-block;
     width: 150px;
     padding-left: 60px;
     height: 20px;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 20px;
     align-self: end;
+    cursor: pointer;
   }
   
   .switch input { 
@@ -138,8 +206,6 @@ footer{
     height: 20px;
     background-color: #fff;
     outline: 1px solid black;
-    -webkit-transition: .4s;
-    transition: .4s;
   }
   
   .slider:before {
@@ -150,8 +216,7 @@ footer{
     left: 4px;
     bottom: 3px;
     background-color: black;
-    -webkit-transition: .4s;
-    transition: .4s;
+    transition: left .2s ease-in-out;
   }
 
   .switch:hover .slider{
@@ -161,7 +226,7 @@ footer{
   input:checked + .slider {
     /* background-color: #2196F3; */
     background-color: #fff;
-    outline-color: limegreen;
+    /* outline-color: limegreen; */
   }
   
   input:focus + .slider {
@@ -170,9 +235,8 @@ footer{
   
   input:checked + .slider:before {
     left: 32px;
-    background-color: limegreen;
-    -webkit-transition: .4s;
-    transition: .4s;
+    /* background-color: limegreen; */
+    transition: left .2s ease-in-out;
   }
 
   .slider-label:before{
@@ -180,7 +244,7 @@ footer{
   }
 
   .paused .slider-label:before{
-      content: "Play";
+      content: "Start";
   }
   
   /* Rounded sliders */
