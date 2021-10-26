@@ -85,7 +85,7 @@ function pause_toggle() {
                 next_alarm_time = alarm_times[0];
                 console.log(next_alarm_time);
                 next_ts = next_alarm_time;
-                next_popup_name = false;
+                next_popup_name = 'nextPopup';
                 alarms.every(function(alarm) {
                     if (alarm.scheduledTime === next_alarm_time) {
                         next_popup_name = alarm.name;
@@ -94,7 +94,7 @@ function pause_toggle() {
                         return true;
                     }
                 });
-              resolve(next_popup_name);
+                resolve(next_popup_name);
             }
           });
         } catch (error) {
