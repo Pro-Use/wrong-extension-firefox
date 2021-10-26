@@ -3,7 +3,7 @@
 body, html{
     padding: 3px;
     margin: 0;
-    background: #fefefe;
+    background: #efefef;
   }
   
   *, *:before, *:after {
@@ -16,7 +16,7 @@ body, html{
   }
 
 .container {
-    font-size: 18px;
+    font-size: 16px;
     font-family: futura-pt, sans-serif;
     font-weight: 500;
     font-style: normal;
@@ -26,9 +26,10 @@ body, html{
     scrollbar-color: #000 #FFF;
     background-color: white;
     height: auto;
-    border: 1px solid black;
-    padding: 20px;
+    border: 1px solid #ccc;
+    padding: 13px;
     width: 350px;
+    border-radius: 3px;
 }
 
 .paused img, .paused section{
@@ -92,7 +93,7 @@ header{
 }
 
 .box-footer, .box-header{
-  font-size: 14px;
+  /* font-size: 14px; */
 }
 
 p{
