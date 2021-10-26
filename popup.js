@@ -70,23 +70,23 @@ chrome.storage.local.get(['paused'], function(result) {
     if (paused === null || paused === false) {
         console.log("Unpaused");
         pause_button.checked = true;
-        document.getElementById("popup-info").style.display = "block";
-        document.getElementById("paused").style.display = "none";
+        // document.getElementById("popup-info").style.display = "block";
+        // document.getElementById("paused").style.display = "none";
     } else {
         console.log("Paused");
         pause_button.checked = false;
-        document.getElementById("popup-info").style.display = "none";
-        document.getElementById("paused").style.display = "block";
+        // document.getElementById("popup-info").style.display = "none";
+        // document.getElementById("paused").style.display = "block";
     }
 });
 
 pause_button.addEventListener( 'change', function() {
     port.postMessage("pause_toggle");
     if (pause_button.checked === true) {
-        location.reload();
+        // location.reload();
     } else {
-        document.getElementById("popup-info").style.display = "none";
-        document.getElementById("paused").style.display = "block";
+        // document.getElementById("popup-info").style.display = "none";
+        // document.getElementById("paused").style.display = "block";
     }
 });
 

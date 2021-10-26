@@ -13,7 +13,7 @@ body, html{
       -webkit-font-smoothing: antialiased;
   }
 
-body {
+.container {
     font-size: 18px;
     font-family: futura-pt,sans-serif;
     font-weight: 500;
@@ -136,7 +136,7 @@ footer{
     left: 0;
     width: 50px;
     height: 20px;
-    background-color: #ccc;
+    background-color: #fff;
     outline: 1px solid black;
     -webkit-transition: .4s;
     transition: .4s;
@@ -147,21 +147,21 @@ footer{
     content: "";
     height: 14px;
     width: 14px;
-    left: 3px;
+    left: 4px;
     bottom: 3px;
     background-color: black;
     -webkit-transition: .4s;
     transition: .4s;
-    background-color: black;
   }
 
   .switch:hover .slider{
-      background-color: #ccc;
+      background-color: #fff;
   }
   
   input:checked + .slider {
     /* background-color: #2196F3; */
     background-color: #fff;
+    outline-color: limegreen;
   }
   
   input:focus + .slider {
@@ -169,8 +169,8 @@ footer{
   }
   
   input:checked + .slider:before {
-    left: 33px;
-    background-color: black;
+    left: 32px;
+    background-color: limegreen;
     -webkit-transition: .4s;
     transition: .4s;
   }
