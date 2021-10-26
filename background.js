@@ -1,4 +1,3 @@
-
 var popups = [];
 
 // Clear Window cache + create alarms on install
