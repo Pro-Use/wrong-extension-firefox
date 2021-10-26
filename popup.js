@@ -116,7 +116,7 @@ chrome.alarms.getAll(function (alarms) {
             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
             // Display the result in the element with id="demo"
-            countdown_str = hours + "h " + minutes + "m " + seconds + "s ";
+            countdown_str = ('0' + hours).slice(-2) + ":" + ('0' + minutes).slice(-2)  + ":" + ('0' + seconds).slice(-2) + "";
             document.getElementById("timer").innerHTML = countdown_str;
 
             // If the count down is finished, write some text
