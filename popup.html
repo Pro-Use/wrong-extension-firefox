@@ -1,43 +1,45 @@
   <!DOCTYPE html>
   <html>
     <head>
+      <link rel="stylesheet" href="https://use.typekit.net/red3rnv.css">
       <link rel="stylesheet" type="text/css" href="popup.css">
     </head>
     <body>
-      <div class="button-conatiner">
-        <div id="content">
-          <!--works-->
-          <div id="works-popup">
-            <div class="popup-text center" id="popup-info">
-                Popup set title:
-                <div id="popup-set-title"> </div>
-                Popup title:
-                <div id="popup-title"> </div>
-                Popup time:
-                <div id="popup-time"> </div>
-                Timer:
-                <div id="popup-timer"> <span id="timer">-</span></div>
-            </div>
-            <div class="popup-text center" id="paused" style="display:none">
-                <div id="popup-paused" class="blinking">PAUSED</div>
-            </div>
-          </div>
-          <!--end works-->
-          <!--close-->
-          <div id="close-popup" class="button-conatiner">
-            <div id="ctrl-link-pause" class="button">Pause</div>
-            <div class="popup-text button" id="closeAll">
-                <div id="close-button">
-                   <label class="switch">
-                       <input id="pause" type="checkbox" checked>
-                    <span class="slider round"></span>
-                  </label>
-                </div>
-            </div>
-          </div>
-          <!--end close-->
+      <header class="header">
+        <h1 class="main-title">
+          <a href="https://www.arebyte.com/" title="Arebyte">
+            <img class="arebyte-logo" alt="Arebyte" src="img/arebyte-logo.png" width="150px" height="auto"/>
+          </a>
+        </h1>
+      </header>
+      <section id="popup-info" class="next-popup box">
+        <h2 class="box-header">Next:</h2>
+        <div class="box-content">
+            <p id="popup-title"> </p>
+            <p id="popup-set-title"> </p>
         </div>
-       </div>
+        <span id="popup-time" class="box-footer"> </span>
+      </section>
+      <section class="timer-box box">
+        <div id="popup-timer"> <span id="timer">-</span></div>
+      </section>
+
+      <footer>
+        <label class="switch">
+          <span class="slider-label"> </span>
+          <input id="pause" type="checkbox" checked>
+          <span class="slider round"></span>
+        </label>
+        <div class="wrong-footer">
+          <a href="https://thewrong.org/" title="The Wrong biennale">
+            <img class="wrong-logo" alt="Arebyte" src="img/tw5_logo.png" width="90px" height="auto"/>
+          </a>
+        </div>
+
+      </footer>
+      
+
+    
       <script src="popup.js"></script>
     </body>
   </html>
