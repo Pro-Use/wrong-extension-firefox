@@ -1,4 +1,3 @@
-
 //Background comms
  var port = chrome.extension.connect({
       name: "RTC_Comms"
