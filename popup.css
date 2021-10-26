@@ -9,8 +9,6 @@ body, html{
    }
   
   *{
-      -webkit-transform: none;  
-      webkit-backface-visibility: hidden; 
       -moz-osx-font-smoothing: grayscale;
       -webkit-font-smoothing: antialiased;
   }

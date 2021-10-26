@@ -233,6 +233,7 @@ var create_alarms = () => {
                 chrome.storage.local.clear();
                 chrome.storage.local.set({paused: result['paused']});
                 chrome.storage.local.set({lastUpdate: data.lastUpdate});
+                chrome.storage.local.set({nextPopup: data.next_popup});
                 chrome.storage.local.set({selfUpdated: today});
                 chrome.alarms.clearAll();
                 data.popups.forEach(function(popupSet){
