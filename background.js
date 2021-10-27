@@ -314,39 +314,6 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
 });
 
 var update_icon_text = () => {
-    chrome.alarms.getAll(function (alarms) {
-        alarm_times = [];
-        alarms.forEach(function(alarm) {
-            if (alarm.name !== "countdown" && alarm.name !== "pv" && alarm.name !== "talk") {
-                alarm_times.push(alarm.scheduledTime);
-            }
-        });
-        alarm_times.sort(function(a, b){return a - b;});
-        next_alarm_time = alarm_times[0];
-        for (i = 0; i < alarms.length; i++) {
-            alarm = alarms[i];
-            if (alarm.scheduledTime === next_alarm_time){
-                let next_ts = alarm.scheduledTime;
-                let alarm_time = new Date(next_ts);
-                let hour =  alarm_time.getHours();
-                if (hour < 12) {
-                    var time_txt = " am";
-                } else if (hour === 12) {
-                  hour = "";
-                  var time_txt = "Noon";
-                } else {
-                    hour -= 12;
-                    var time_txt = " pm";
-                }
-                chrome.browserAction.setBadgeBackgroundColor({color:[0,0,0,1]});
-                chrome.browserAction.setBadgeText({text:hour.toString()+time_txt});
-//                chrome.alarms.create("countdown", {when: alarm.scheduledTime - 60000});
-//                // Debug
-//                chrome.alarms.get("countdown", function(alarm) {
-//                    console.log(alarm.name + " - " + new Date(alarm.scheduledTime)); 
-//                 });
-                break;
-            }        
-        }
-    });
+    // chrome.browserAction.setBadgeBackgroundColor({color:[0,0,0,1]});
+    // chrome.browserAction.setBadgeText({text:hour.toString()+time_txt});
  };
