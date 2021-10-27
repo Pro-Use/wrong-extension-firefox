@@ -3,41 +3,97 @@
     <head>
       <link rel="stylesheet" href="https://use.typekit.net/red3rnv.css">
       <link rel="stylesheet" type="text/css" href="popup.css">
+      <meta charset="UTF-8">
     </head>
-    <body>
-      <div class="container">
+    <body class="body">
+      <div class="app-body">
         <header class="header">
           <h1 class="main-title">
-            <a href="https://www.arebyte.com/" title="Arebyte">
-              <img class="arebyte-logo" alt="Arebyte" src="img/arebyte-logo.png" width="150px" height="auto"/>
+            <a href="https://www.arebyte.com/" title="Arebyte" target="_Blank">
+              <img class="arebyte-logo" alt="Arebyte" src="img/arebyte-B.png" width="176px" height="auto"/>
             </a>
           </h1>
+          <nav class="menu">
+            <a id="page-toggle" href="#about" class="link-item">About</a>
+          </nav>
         </header>
-        <section id="popup-info" class="next-popup box">
-          <h2 class="box-header">Next:</h2>
-          <div class="box-content">
-              <p id="popup-title"> </p>
-              <p id="popup-set-title"> </p>
-          </div>
-          <span id="popup-time" class="box-footer"> </span>
-        </section>
-        <section class="timer-box box">
-          <div id="popup-timer" class="popup-timer"> <span id="timer">-</span></div>
-          <div class="paused-display">Paused</div>
-        </section>
+        <div id="info" class="container info">
+          <section class="toggle-button">
+            <label class="switch">
+              <span id="pause-label" class="slider-label"> </span>
+              <input id="pause" type="checkbox" checked>
+              <span class="slider round"></span>
+            </label>
+          </section>
+          <section id="popup-info" class="next-popup box fade green-shadow">
+            <h2 class="box-header">Next Pop Up</h2>
+            <p id="popup-title" class="popup-title"> </p>
+            <dl class="popup-details">
+              <dt>Part of:</dt>
+              <dd id="popup-set-title"></dd>
+              <dt>Start Time:</dt>
+              <dd id="popup-time"> </dd>
+            </dl>
+          </section>
+          <section class="timer-box box green-shadow">
+            <div id="popup-timer" class="popup-timer"> 
+              <h2 class="box-header">Coming up in</h2>
+              <span id="timer" class="timer">-</span>
+            </div>
+            <div class="paused-display">Paused</div>
+          </section>
 
-        <footer>
-          <label class="switch">
-            <span id="pause-label" class="slider-label"> </span>
-            <input id="pause" type="checkbox" checked>
-            <span class="slider round"></span>
-          </label>
-          <div class="wrong-footer">
-            <a href="https://thewrong.org/" title="The Wrong biennale">
-              <img class="wrong-logo" alt="Arebyte" src="img/tw5_logo.png" width="90px" height="auto"/>
-            </a>
-          </div>
-        </footer>
+          <footer class="fade">
+            <div class="contact-link-container">
+              <a class="link-item" href="mailto:hello@arebyte.com">Contact</a>
+            </div>
+            <div class="wrong-footer">
+              <a href="https://thewrong.org/" title="The Wrong biennale" target="_Blank">
+                <img class="wrong-logo" alt="Arebyte" src="img/tw5_logo-B.png" width="90px" height="auto"/>
+              </a>
+            </div>
+          </footer>
+        </div>
+
+        <div id="about" class="container about">
+          <section id="popup-info" class="next-popup box red-shadow">
+            <h2 class="box-header">About</h2>
+            <div class="body-content">
+              <p>
+              arebyte Plug-in<br>
+              arebyte browser extension for The Wrong Biennale 2021/22
+              </p>
+              <p>
+              For the 2021/2022 edition of The Wrong Biennale, arebyte presents arebyte plug-in a new way to experience the works and exhibition in the biennale via a browser plug-in. The plug-in brings the magnitude and unique breadth of exhibitions and works featured in The Wrong Biennale to be presented as a series of pop-up windows including images, audio, video and 3D digital worlds directly to the viewer’s browser.
+              </p>
+              <p>
+              The works are displayed as pop-up windows and are disseminated to the viewer over the duration of a week, their size, frequency and contents all to be decided by the curators of each presentation. Viewing selected contents from the Biennale in this way makes traversing the works easier for those who have less time, or want a new experience of The Wrong for 2021. It also applies a more progressive way of viewing digital content online, and provides an artistic ‘stopping cue’ from relentless scrolling, email notifications and other computer-centered work.
+              </p>
+              <p>
+              To launch The Wrong, arebyte will curate the first pop-up exhibition for highlighting works developed and created during the Paraspaces 2021 as part of the  residency with the Goldsmiths computing department students. 
+              </p>
+              <p>
+              The connected works are an experiment in distributed online spaces, and provide insights into multi-layered interests in the paraspace cartography arena including mapping, neural-nets, first-person gaming and bots.
+              </p>
+              <p>
+              Each week over the course of the Biennale, a new curator will be selected by arebyte and The Wrong Curatorial team to curate and present their own existing Embassy and Pavilion on the plug-in.
+              </p>
+              <p>
+              The plug-in was initially developed by arebyte for Real-Time Constraints , a group exhibition in 2020
+              </p>
+            </div>
+          </section>
+          <section id="popup-info" class="next-popup box red-shadow">
+            <h2 class="box-header">Credits</h2>
+            <p class="popup-title">Arebyte Plugin</p>
+            <dl class="credit-details">
+              <dt>Credit Title</dt> <dd>Author Name</dd>
+              <dt>Another Credit</dt> <dd>Another Name</dd>
+              <dt>Plugin Design and Development</dt>  <dd>Rob Prouse & Tom Merrell</dd>
+            </dl>
+          </section>
+        </div>
+
       </div>
       <script src="popup.js"></script>
     </body>
