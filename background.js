@@ -107,10 +107,10 @@ function pause_toggle() {
     if (fullscreen) {
         optionsDictionary.state = "fullscreen";
     } else {
-        optionsDictionary.left = dims[0];
-        optionsDictionary.top = dims[1];
-        optionsDictionary.width = dims[2];
-        optionsDictionary.height = dims[3];
+        optionsDictionary.left = parseInt(dims[0]);
+        optionsDictionary.top = parseInt(dims[1]);
+        optionsDictionary.width = parseInt(dims[2]);
+        optionsDictionary.height = parseInt(dims[3]);
 
     }
     return new Promise((resolve, reject) => {
