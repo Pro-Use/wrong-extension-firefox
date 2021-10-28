@@ -28,7 +28,7 @@ function pause_toggle() {
           all_alarms.then(function (alarms) {
             alarm_times = [];
             alarms.forEach(function(alarm) {
-                if (alarm.name !== "countdown" && alarm.name !== "pv" && alarm.name !== "talk") {
+                if (alarm.name !== "refresh") {
                     alarm_times.push(alarm.scheduledTime);
                 }
             });
