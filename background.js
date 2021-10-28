@@ -1,62 +1,15 @@
-var popups = [];
 
-// Clear Window cache + create alarms on install
-chrome.runtime.onInstalled.addListener(function () {
-    chrome.storage.local.set({paused: false});
-    create_alarms();
-    update_icon_text();
-});
-
-// Clear Window cache + create alarms on restart
-chrome.runtime.onStartup.addListener(function () {
-    chrome.storage.local.get(['paused'], function(result) {
-        if (result.paused === false) {
-            create_alarms();
-            update_icon_text();
-        }
-    });
-});
-
-// Update alarms on system idle update
-chrome.idle.onStateChanged.addListener(function() {
-    chrome.storage.local.get(['paused'], function(result) {
-        if (result.paused === false) {
-            create_alarms(); 
-        }
-    });
-});
-
-// Popup comms
- chrome.extension.onConnect.addListener(function(port) {
-      port.onMessage.addListener(async function(msg) {
-           console.log("message recieved: " + msg);
-           if (msg === "ctrl-link") {
-                arebyteWindow();          
-           } else if (msg === 'pause_toggle'){
-               pause_toggle();
-           } else if (msg === 'next_popup'){
-               var next_popup = await nextPopup();
-               console.log(next_popup);
-               chrome.storage.local.get([next_popup], function(result) {
-                   console.log(result[next_popup]);
-                   popupWindow(result[next_popup]);
-                });
-           } else if (msg === 'refresh'){
-               create_alarms();
-           }
-      });
- });
  
  //Pause
 function pause_toggle() {
-    chrome.storage.local.get(['paused'], function(result) {
+    browser.storage.local.get(['paused'], function(result) {
         paused = result.paused;
         if (paused === null || paused === false) {
-            chrome.storage.local.set({paused: true});
-            chrome.browserAction.setBadgeText({text:""});
+            browser.storage.local.set({paused: true});
+            browser.browserAction.setBadgeText({text:""});
             console.log("Paused");
         } else {
-            chrome.storage.local.set({paused: false});
+            browser.storage.local.set({paused: false});
             create_alarms();
             update_icon_text();
             console.log("Unpaused");
@@ -71,30 +24,28 @@ function pause_toggle() {
  function nextPopup() {
     return new Promise((resolve, reject) => {
         try {
-          chrome.alarms.getAll(function (alarms) {
-            if (chrome.runtime.lastError) reject(chrome.runtime.lastError);
-            else {
-                alarm_times = [];
-                alarms.forEach(function(alarm) {
-                    if (alarm.name !== "countdown" && alarm.name !== "pv" && alarm.name !== "talk") {
-                        alarm_times.push(alarm.scheduledTime);
-                    }
-                });
-                alarm_times.sort(function(a, b){return a - b;});
-                next_alarm_time = alarm_times[0];
-                console.log(next_alarm_time);
-                next_ts = next_alarm_time;
-                next_popup_name = 'nextPopup';
-                alarms.every(function(alarm) {
-                    if (alarm.scheduledTime === next_alarm_time) {
-                        next_popup_name = alarm.name;
-                        return false;
-                    } else {
-                        return true;
-                    }
-                });
-                resolve(next_popup_name);
-            }
+          let all_alarms = browser.alarms.getAll();
+          all_alarms.then(function (alarms) {
+            alarm_times = [];
+            alarms.forEach(function(alarm) {
+                if (alarm.name !== "countdown" && alarm.name !== "pv" && alarm.name !== "talk") {
+                    alarm_times.push(alarm.scheduledTime);
+                }
+            });
+            alarm_times.sort(function(a, b){return a - b;});
+            next_alarm_time = alarm_times[0];
+            console.log(next_alarm_time);
+            next_ts = next_alarm_time;
+            next_popup_name = 'nextPopup';
+            alarms.every(function(alarm) {
+                if (alarm.scheduledTime === next_alarm_time) {
+                    next_popup_name = alarm.name;
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+            resolve(next_popup_name);
           });
         } catch (error) {
             reject (error);
@@ -114,17 +65,18 @@ function pause_toggle() {
 
     }
     return new Promise((resolve, reject) => {
-        try {
-          chrome.windows.create(optionsDictionary, function (newWindow) {
-            if (chrome.runtime.lastError) reject(chrome.runtime.lastError);
-            else {
-              let new_id = newWindow.id;
-              resolve(new_id);
-            }
+      var pos = [optionsDictionary.left, optionsDictionary.top];
+      let new_window = browser.windows.create(optionsDictionary);
+      new_window.then(function (newWindow) {
+          let new_id = newWindow.id;
+          let update = browser.windows.update(new_id, {
+            left: pos[0],
+            top: pos[1]
           });
-        } catch (error) {
-            reject (error);
-        };
+          update.then(function(window) {
+            resolve(window.id);
+          });
+      });
     });
 }
 
@@ -224,22 +176,22 @@ var create_alarms = () => {
         }
         // Examine the text in the response
         response.json().then(function(data) {
-          chrome.storage.local.get(['lastUpdate', 'paused', 'selfUpdated'], function(result) {
+          browser.storage.local.get(['lastUpdate', 'paused', 'selfUpdated'], function(result) {
             var today = new Date().getDay();
             console.log(result['selfUpdated']);
             // has popup data changed or are alarms from yesterday?
             if(result['lastUpdate'] !== data.lastUpdate || result['selfUpdated'] !== today) {
-                chrome.storage.local.clear();
-                chrome.storage.local.set({paused: result['paused']});
-                chrome.storage.local.set({lastUpdate: data.lastUpdate});
-                chrome.storage.local.set({nextPopup: data.next_popup});
-                chrome.storage.local.set({selfUpdated: today});
-                chrome.alarms.clearAll();
+                browser.storage.local.clear();
+                browser.storage.local.set({paused: result['paused']});
+                browser.storage.local.set({lastUpdate: data.lastUpdate});
+                browser.storage.local.set({nextPopup: data.next_popup});
+                browser.storage.local.set({selfUpdated: today});
+                browser.alarms.clearAll();
                 data.popups.forEach(function(popupSet){
                     popupSet.forEach(function(popup){
                        let sdict = {};
                        sdict[popup.id] = popup;
-                       chrome.storage.local.set(sdict);
+                       browser.storage.local.set(sdict);
                        let time = popup.time.split(":");
                        let hour = time[0];
                        let min = time[1];
@@ -248,13 +200,13 @@ var create_alarms = () => {
                     });
                 });
                 // log
-                chrome.alarms.getAll(function(alarms) {
+                browser.alarms.getAll(function(alarms) {
                     alarms.forEach(function(alarm) {
                        alarm_time = new Date(alarm.scheduledTime);
                        console.log("Alarm: "+alarm.name+", Time: "+alarm_time); 
                     });
                 });
-                chrome.storage.local.get(function(storage){
+                browser.storage.local.get(function(storage){
                     console.log(storage);
                 }); 
             };
@@ -285,21 +237,21 @@ var create_alarm = (hour, min, id) => {
         let alarm_info = {
             when:new_time
         };
-        chrome.alarms.create(id, alarm_info);
+        browser.alarms.create(id, alarm_info);
         console.log("creating alarm for "+id+" at "+new_time);
     };
     
 };
 
-chrome.alarms.onAlarm.addListener(function(alarm) {
-    chrome.storage.local.get('paused', function(result){
+browser.alarms.onAlarm.addListener(function(alarm) {
+    browser.storage.local.get('paused', function(result){
         console.log(result);
         if (result['paused'] === null || result['paused'] === false) {
             console.log("Triggered:"+alarm.name);
             alarm_offset = Date.now() - alarm.scheduledTime;
             console.log(alarm_offset);
             if (alarm_offset < 66000) {
-                chrome.storage.local.get([alarm.name], function(result) {
+                browser.storage.local.get([alarm.name], function(result) {
                     popupWindow(result[alarm.name]);
                 });
                 update_icon_text();
@@ -314,6 +266,55 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
 });
 
 var update_icon_text = () => {
-    // chrome.browserAction.setBadgeBackgroundColor({color:[0,0,0,1]});
-    // chrome.browserAction.setBadgeText({text:hour.toString()+time_txt});
+    // browser.browserAction.setBadgeBackgroundColor({color:[0,0,0,1]});
+    // browser.browserAction.setBadgeText({text:hour.toString()+time_txt});
  };
+
+var popups = [];
+
+// Clear Window cache + create alarms on install
+browser.runtime.onInstalled.addListener(function () {
+    browser.storage.local.set({paused: false});
+    create_alarms();
+    update_icon_text();
+});
+
+// Clear Window cache + create alarms on restart
+browser.runtime.onStartup.addListener(function () {
+    browser.storage.local.get(['paused'], function(result) {
+        if (result.paused === false) {
+            create_alarms();
+            update_icon_text();
+        }
+    });
+});
+
+// Update alarms on system idle update
+browser.idle.onStateChanged.addListener(function() {
+    browser.storage.local.get(['paused'], function(result) {
+        if (result.paused === false) {
+            create_alarms(); 
+        }
+    });
+});
+
+// Popup comms
+ browser.runtime.onConnect.addListener(function(port) {
+      port.onMessage.addListener(async function(msg) {
+           console.log("message recieved: " + msg);
+           if (msg === "ctrl-link") {
+                arebyteWindow();          
+           } else if (msg === 'pause_toggle'){
+               pause_toggle();
+           } else if (msg === 'next_popup'){
+               var next_popup = await nextPopup();
+               console.log(next_popup);
+               browser.storage.local.get([next_popup], function(result) {
+                   console.log(result[next_popup]);
+                   popupWindow(result[next_popup]);
+                });
+           } else if (msg === 'refresh'){
+               create_alarms();
+           }
+      });
+ });

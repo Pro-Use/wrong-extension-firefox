@@ -19,7 +19,7 @@
     });
 
 //Background comms
- var port = chrome.extension.connect({
+ var port = browser.runtime.connect({
       name: "RTC_Comms"
  });
 
@@ -103,7 +103,7 @@ function startTimer(next_ts) {
 //pause state
 var pause_button = document.getElementById("pause");
 
-chrome.storage.local.get(['paused'], function(result) {
+browser.storage.local.get(['paused'], function(result) {
     paused = result.paused;
     if (paused === null || paused === false) {
         pause_button.checked = true;
@@ -141,7 +141,7 @@ var time = document.getElementById('popup-time');
 
 var next_ts = null;
 
-chrome.alarms.getAll(function (alarms) {
+browser.alarms.getAll(function (alarms) {
     alarm_times = [];
     alarms.forEach(function(alarm) {
         if (alarm.name !== "countdown" && alarm.name !== "pv" && alarm.name !== "talk") {
@@ -162,7 +162,7 @@ chrome.alarms.getAll(function (alarms) {
         }
     });
     if (next_popup_name) {
-        chrome.storage.local.get([next_popup_name], function(result) {
+        browser.storage.local.get([next_popup_name], function(result) {
                 next_popup = result[next_popup_name];
                 console.log(next_popup);
                 set_title.innerHTML = next_popup.title;
@@ -171,7 +171,7 @@ chrome.alarms.getAll(function (alarms) {
                 startTimer(next_ts);
         });
     } else {
-        chrome.storage.local.get(['nextPopup'], function(result) {
+        browser.storage.local.get(['nextPopup'], function(result) {
             next_popup = result['nextPopup'];
             console.log(next_popup);
             if (next_popup === null) {
