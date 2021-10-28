@@ -142,15 +142,17 @@ var time = document.getElementById('popup-time');
 var next_ts = null;
 
 browser.alarms.getAll(function (alarms) {
+    console.log(alarms);
     alarm_times = [];
     alarms.forEach(function(alarm) {
-        if (alarm.name !== "countdown" && alarm.name !== "pv" && alarm.name !== "talk") {
+        if (alarm.name !== "refresh") {
             alarm_times.push(alarm.scheduledTime);
         }
     });
+    console.log(alarm_times);
     alarm_times.sort(function(a, b){return a - b;});
     next_alarm_time = alarm_times[0];
-    console.log(next_alarm_time);
+    console.log("next alarm:"+ next_alarm_time);
     next_ts = next_alarm_time;
     next_popup_name = false;
     alarms.every(function(alarm) {
