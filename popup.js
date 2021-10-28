@@ -1,3 +1,23 @@
+// Get about text
+    fetch('https://api-arebyte.a2hosted.com/info.json', {mode: 'cors'})
+    .then(
+      function(response) {
+        if (response.status !== 200) {
+          console.log('Looks like there was a problem. Status Code: ' +
+            response.status);
+          return;
+        }
+        // Examine the text in the response
+        response.json().then(function(data) {
+            about_div = document.getElementById('about-text');
+            about_div.innerHTML = data.about;
+        });
+      }
+    )
+    .catch(function(err) {
+      console.log('Fetch Error :-S', err);
+    });
+
 //Background comms
  var port = chrome.extension.connect({
       name: "RTC_Comms"
