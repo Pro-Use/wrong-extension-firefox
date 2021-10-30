@@ -167,9 +167,9 @@ browser.alarms.getAll(function (alarms) {
         browser.storage.local.get([next_popup_name], function(result) {
                 next_popup = result[next_popup_name];
                 console.log(next_popup);
-                set_title.innerHTML = DOMPurify.sanitize(next_popup.title);
-                title.innerHTML = DOMPurify.sanitize(next_popup.popup_title);
-                time.innerHTML = DOMPurify.sanitize(next_popup.time);
+                set_title.innerHTML = next_popup.title;
+                title.innerHTML = next_popup.popup_title;
+                time.innerHTML = next_popup.time;
                 startTimer(next_ts);
         });
     } else {
@@ -184,9 +184,9 @@ browser.alarms.getAll(function (alarms) {
                 next_date = new Date(next_date[0], (next_date[1] - 1), next_date[2], next_time[0], next_time[1]);
                 next_ts = next_date.getTime();
                 console.log(next_popup.time);
-                set_title.innerHTML = DOMPurify.sanitize(next_popup.title);
-                title.innerHTML = DOMPurify.sanitize(next_popup.popup_title);
-                time.innerHTML = DOMPurify.sanitize(next_popup.time);
+                set_title.innerHTML = next_popup.title;
+                title.innerHTML = next_popup.popup_title;
+                time.innerHTML = next_popup.time;
                 startTimer(next_ts);
             }
         });
