@@ -25,6 +25,8 @@ body, html{
   background-color: white;
   overflow-y: scroll;
   overflow-x: hidden;
+  scrollbar-color: rgb(0,0,255)  rgb(255,255,255);
+  scrollbar-width: thin;
 }
 
 .app-body::-webkit-scrollbar {
