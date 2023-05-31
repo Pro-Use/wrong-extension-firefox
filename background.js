@@ -1,4 +1,5 @@
-
+// const base_url = "https://plugin.arebyte.com/";
+const base_url = "https://dev.10pm.studio/arebyte-ext/"
  
  //Pause
 function pause_toggle() {
@@ -167,7 +168,7 @@ arebyteWindow = async() => {
 var create_alarms = (force=false) => {
     console.log("force=" + force);
     // works
-    fetch('https://plugin.arebyte.com/invites.json', {mode: 'cors'})
+    fetch(base_url+'invites.json', {mode: 'cors'})
     .then(
       function(response) {
         if (response.status !== 200) {
