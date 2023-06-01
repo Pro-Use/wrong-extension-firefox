@@ -3,22 +3,22 @@
     <head>
       <link rel="stylesheet" href="https://use.typekit.net/red3rnv.css">
       <link rel="stylesheet" type="text/css" href="popup.css">
-      <script type="text/javascript" src="js/purify.min.js"></script>
       <meta charset="UTF-8">
     </head>
     <body class="body">
       <div class="app-body">
-        <header class="header">
-          <h1 class="main-title">
-            <a href="https://www.arebyte.com/" title="Arebyte" target="_Blank">
-              <img class="arebyte-logo" alt="Arebyte" src="img/arebyte-Plugin-blue.png" width="176px" height="auto"/>
-            </a>
-          </h1>
-          <nav class="menu">
-            <a id="page-toggle" href="#about" class="link-item">About</a>
-          </nav>
-        </header>
         <div id="info" class="container info">
+          <header class="header">
+            <h1 class="main-title">
+              <a href="https://www.arebyte.com/" title="Arebyte" target="_Blank">
+                <img class="arebyte-logo" alt="Arebyte" src="img/arebyte-Plugin-blue.png" width="176px" height="auto"/>
+              </a>
+            </h1>
+            <nav class="menu">
+              <a id="page-toggle" href="#about" class="link-item nav-link">About</a>
+              <a id="page-toggle-archive" href="#archive" class="link-item nav-link">Archive</a>
+            </nav>
+          </header>
           <div class="main">
             <section class="toggle-button">
               <label class="switch">
@@ -59,7 +59,15 @@
           </footer>
         </div>
 
-        <div id="about" class="container about">
+        <div id="about" class="container about" tabindex="-1">
+          <header class="header">
+            <a class="back-button" href="#info">
+              <span class="visuallyhidden">Back</span>
+              <svg width="41" height="22" viewBox="0 0 41 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 11L19 16.7735V5.2265L9 11ZM18 12H32V10H18V12Z" fill="#0500FF"/>
+              </svg>                
+            </a>
+          </header>
           <div class="main">
             <section id="popup-info" class="next-popup box red-shadow">
               <h2 class="box-header">About</h2>
@@ -69,7 +77,7 @@
             <section id="popup-info" class="next-popup box red-shadow">
               <h2 class="box-header">Credits</h2>
               <p class="popup-title">arebyte Plugin v3.0</p>
-              <p class="credit-details">Developed by <a href="https://www.arebyte.com/" target="_Blank">arebyte</a>, 2023</p>
+              <p class="credit-details">Powered by <a href="https://www.arebyte.com/" target="_Blank">arebyte</a>, 2023</p>
               <p class="credit-details">
                 Plugin Design and Development by <a href="https://10pm.studio" targe="_Blank">10pm Studio</a>
               </p>
@@ -78,7 +86,44 @@
           </div>
         </div>
 
+
+        <div id="archive" class="container archive" tabindex="-1">
+          <header class="header">
+            <a class="back-button" href="#info">
+              <span class="visuallyhidden">Back</span>
+              <svg width="41" height="22" viewBox="0 0 41 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 11L19 16.7735V5.2265L9 11ZM18 12H32V10H18V12Z" fill="#0500FF"/>
+              </svg>                
+            </a>
+
+          </header>
+          <div class="main">            
+              <h2 class="box-header">Archive</h2>
+              <div id="archiveContainer" class="archive-content">
+              </div>
+          </div>
+        </div>
+
+        <div id="project" class="container project no-padding" tabindex="-1">
+          <header class="header padding">
+            <a class="back-button" href="#archive">
+              <span class="visuallyhidden">Back</span>
+              <svg width="41" height="22" viewBox="0 0 41 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 11L19 16.7735V5.2265L9 11ZM18 12H32V10H18V12Z" fill="#0500FF"/>
+              </svg>                
+            </a>
+
+          </header>
+          <div class="main">            
+              <h2 class="box-header padding">Archive</h2>
+              <div id="projectContainer" class="archive-content">
+
+              </div>
+          </div>
+        </div>
+
       </div>
       <script src="popup.js"></script>
+      <script src="archive.js"></script>
     </body>
   </html>
