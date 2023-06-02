@@ -60,6 +60,14 @@ fetch(archive_url, {mode: 'cors'})
     }
   });
 
+  projectContainer.addEventListener('click', (e) => {
+    if (e.target.classList.contains('close-info')) {
+      e.preventDefault();
+      e.target.closest('details').removeAttribute('open');
+      console.log(e.target.closest('details'));
+    }
+  });
+
   function buildProjectPage(item) {
     var title = item.title;
       var curator = item.curator;
@@ -82,6 +90,7 @@ fetch(archive_url, {mode: 'cors'})
                     <summary> More Info </summary>
                     <div class="project-description">
                         ${text}
+                        <button class="close-info">Hide Info</button>
                     </div>
                 </details>
             </div>
@@ -104,10 +113,7 @@ fetch(archive_url, {mode: 'cors'})
         button.innerHTML = `
             <span class="button-title">${popupTitle}</span>
             <span class="button-times">${popupDate} – ${popupTime}</span>
-            <svg width="60" height="66" viewBox="0 0 60 66" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M42 32L32 26.2265V37.7735L42 32ZM33 31L19 31V33H33V31Z" fill="#0000FF"/>
-            </svg>
-
+            <svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33 33"><g id="Layer_1-2"><path d="m32,0H12c-.55,0-1,.45-1,1v20c0,.55.45,1,1,1h20c.55,0,1-.45,1-1V1c0-.55-.45-1-1-1Zm-1,20H14.41l5.59-5.59v3.59h2v-6c0-.55-.45-1-1-1h-6v2h3.59l-5.59,5.59V2h18v18Z" fill="blue"/><path d="m20,31H2V13h7v-2H1c-.55,0-1,.45-1,1v20c0,.55.45,1,1,1h20c.55,0,1-.45,1-1v-8h-2v7Z" fill="blue"/></g></svg>        
         `;
         document.getElementById('popupContainer').appendChild(button);
         button.addEventListener("click", function () {
