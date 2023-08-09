@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <link rel="stylesheet" type="text/css" href="debug.css">
+      <meta charset="UTF-8">
+    </head>
+    <body class="body">
+      <h2>Project</h2>
+      <table>
+        <tr>
+          <td>Project:</td>
+          <td id='project-cell'></td>
+        </tr>
+        <tr>
+          <td>Days:</td>
+          <td id='days-cell'></td>
+        </tr>
+        <tr>
+          <td>Current Day:</td>
+          <td id='cur-days-cell'></td>
+        </tr>
+        <tr>
+          <form>
+            <td><label for="new_day">Change Day:</label></td>
+            <td>
+              <input type="number" name="new-day" id="new-day" min=1 max=1 value=1>
+              <button id="change-day">Go</button>
+            </td>
+          </form>
+        </tr>
+      </table>
+      <h2>History</h2>
+      <table>
+        <tr>
+          <td>Projects completed:</td>
+          <td id="history-cell"></td>
+          <td></td>
+          <td><button id="clear-history">Clear</button></td>
+        </tr>
+      </table>
+      <h2>Display</h2>
+      <table>
+        <tr>
+          <td>width:</td>
+          <td id="width-cell"></td>
+        </tr>
+        <tr>
+          <td>height:</td>
+          <td id="height-cell"></td>
+        </tr>
+      </table>
+
+      <script src="debug.js"></script>
+    </body>
+  </html>
