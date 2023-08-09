@@ -101,7 +101,7 @@ header{
     position: absolute;
     top:0;
     left: 0;
-    transition: left .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+/*    transition: left .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);*/
     overflow-y: scroll;
     background-color: #fff;
     display: flex;
@@ -134,7 +134,7 @@ header{
 
 .about--open .info, .archive--open .info, .project--open .info{
   left: -100vw;
-  transition: left .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);;
+/*  transition: left .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);;*/
 }
 
 .project--open .archive{
@@ -652,6 +652,27 @@ a:hover, a:active{
     fill: white;
   }
 
+  .project-button{
+    width: 100%;
+    color: inherit;
+    position: relative;
+    padding-right: 65px;
+    margin-top: 25px;
+    margin-bottom: 0px;
+    text-align: left;
+    cursor: pointer;
+    transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 150ms;
+  }
+
+  .project-button:hover{
+    background-color: blue;
+    color: white;
+  }
+
+  .project-button:hover path{
+    fill: white;
+  }
+
   .button-title{
     font-family: 'Futura';
     font-style: normal;
@@ -675,4 +696,15 @@ a:hover, a:active{
     right: 0;
     top:50%;
     transform: translateY(-50%);
+  }
+
+  .project-button svg{
+    position: absolute;
+    right: 0;
+    top:50%;
+    transform: translateY(-50%);
+  }
+
+  #close_all {
+    cursor: pointer;
   }

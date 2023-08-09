@@ -37,6 +37,8 @@ buttons.forEach(function(currentBtn){
 //launch live || all artists
 var trigger_counter = 0;
 var refresh_counter = 0;
+var debug_counter = 0;
+
 
 var paused;
 
@@ -86,6 +88,12 @@ function logKey(e) {
            port.postMessage("refresh");
            window.close();
       }
+  } else if (e.code === "KeyD"){
+      debug_counter += 1;
+      if (debug_counter > 3) {
+           port.postMessage("debug");
+           window.close();
+      }
   }
 }
 
@@ -127,7 +135,14 @@ browser.storage.local.get(['paused'], function(result) {
     checkStatus();
 });
 
+// close all
 
+const close_button = document.getElementById("close_all")
+
+close_button.addEventListener('click', (e) => {
+    e.preventDefault()
+    port.postMessage("close_all");
+})
 
 function checkStatus(){
     if(paused){
@@ -148,10 +163,15 @@ pause_button.addEventListener( 'change', function() {
     }
 });
 
+// Heartbeat command to keep background alive
+
+setInterval( () => { port.postMessage("keep_alive") }, 10000)
+
 
 var set_title = document.getElementById('popup-set-title');
 var title = document.getElementById('popup-title');
 var time = document.getElementById('popup-time');
+var day = document.getElementById('popup-day');
 
 var next_ts = null;
 
@@ -184,23 +204,27 @@ browser.alarms.getAll(function (alarms) {
                 set_title.innerHTML = next_popup.title;
                 title.innerHTML = next_popup.popup_title;
                 time.innerHTML = next_popup.time;
+                day.innerHTML = next_popup.day;
                 startTimer(next_ts);
         });
     } else {
         browser.storage.local.get(['nextPopup'], function(result) {
             next_popup = result['nextPopup'];
             console.log(next_popup);
-            if (next_popup === null) {
+            if (! next_popup || next_popup === null) {
                 set_title.innerHTML = "No popups currently scheduled...";
             } else {
-                let next_date = next_popup.date.split("-");
                 let next_time = next_popup.time.split(":");
-                next_date = new Date(next_date[0], (next_date[1] - 1), next_date[2], next_time[0], next_time[1]);
+                let next_date = new Date()
+                next_date.setDate(next_date.getDate()+next_popup.diff)
+                next_date.setHours(next_time[0])
+                next_date.setMinutes(next_time[1])
                 next_ts = next_date.getTime();
                 console.log(next_popup.time);
                 set_title.innerHTML = next_popup.title;
                 title.innerHTML = next_popup.popup_title;
                 time.innerHTML = next_popup.time;
+                day.innerHTML = next_popup.day;
                 startTimer(next_ts);
             }
         });

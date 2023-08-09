@@ -1,13 +1,12 @@
 {
   "name": "arebyte Plug in",
-  "version": "2.0",
+  "version": "3.1",
   "description": "arebyte browser extension",
   "permissions": ["storage", "alarms", "idle"],
   "background": {
-    "scripts": ["background.js"],
-    "persistent": true
+    "scripts": ["background.js"]
   },
-  "browser_action": {
+  "action": {
     "default_popup": "popup.html"
   },
   "content_scripts": [
@@ -27,5 +26,5 @@
     "48": "icons/rtc-48.png",
     "128": "icons/rtc-128.png"
   },
-  "manifest_version": 2
+  "manifest_version": 3
 }
