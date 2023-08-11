@@ -1,3 +1,4 @@
+const liveContainer = document.getElementById('liveContainer');
 const archiveContainer = document.getElementById('archiveContainer');
 const projectContainer = document.getElementById('projectContainer');
 let archiveData;
@@ -14,14 +15,25 @@ fetch(archive_url, {mode: 'cors'})
   .catch(err => console.log(err))
 
 
-  function buildArchive(jsonArray) {
+  async function buildArchive(jsonArray) {
+    let { project } = await browser.storage.local.get('project');
     let index = 0;
+    let header = document.createElement("h2");
+    header.classList.add('box-header')
+    header.innerHTML = 'Previous Projects';
+    archiveContainer.appendChild(header)
     jsonArray.forEach(function(item) {
       var title = item.title;
       var curator = item.curator;
       var from = item.from;
       var img = item.img || "/placeholder.svg";
       from = from.replace(/-/g, '.');
+      if(project && project.slug && item.project == project.slug){
+        let live_header = document.createElement("h2");
+        live_header.classList.add('box-header')
+        live_header.innerHTML = 'Current Project';
+        liveContainer.appendChild(live_header)
+      }
       var element = document.createElement("div");
       element.innerHTML = `
       <a class="archive-item info-item red-shadow box" href="#project" data-index="${index}">
@@ -41,13 +53,28 @@ fetch(archive_url, {mode: 'cors'})
         <img srcset="${img}" class="background-image" />
       </a>
       `;
-      archiveContainer.appendChild(element);
+      if (project && project.slug && item.project == project.slug){
+        liveContainer.appendChild(element);
+      } else if (!item.live) {
+        archiveContainer.appendChild(element);
+      }
       
       index++;
     });
   }
 
   archiveContainer.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (e.target.classList.contains('archive-item')) {
+        e.preventDefault();
+        console.log(window.pageXOffset);
+        let index = e.target.dataset.index;
+        buildProjectPage(archiveData[index]);
+        openProjectPage(e);
+    }
+  });
+
+  liveContainer.addEventListener('click', (e) => {
     e.preventDefault();
     if (e.target.classList.contains('archive-item')) {
         e.preventDefault();
@@ -67,7 +94,7 @@ fetch(archive_url, {mode: 'cors'})
       var popups = item.popups;
       from = from.replace(/-/g, '.');
       var element = document.createElement("div");
-      element.innerHTML = `
+      let new_html = `
         <img srcset="${img}" class="project-image" />
         <div class="project-main padding">
             <div class="project-info-box red-shadow box bg-white">
@@ -82,15 +109,24 @@ fetch(archive_url, {mode: 'cors'})
                     </div>
                 </details>
             </div>
+            
+      `;
+      if (!item.live){
+        new_html += `
             <div class="project-popups">
                 <h3 class="box-header">Works:</h3>
                 <div id="popupContainer"></div>
             </div>
-        </div>
-      `;
+        </div>`
+      } else {
+        new_html += `
+        </div>`
+      }
+      element.innerHTML = new_html;
       // Append load button if not current project
       let { project } = await browser.storage.local.get('project');
       if (!project || project.slug && project.slug != item.project){
+        if(!item.live){
           let load = element.querySelector('#load-button')
           let project_button = document.createElement('button');
           project_button.classList.add('project-button', 'box', 'bg-white');
@@ -107,6 +143,7 @@ fetch(archive_url, {mode: 'cors'})
             port.postMessage(msg);
             window.close();
           });
+        }
       // Append unload button if current but not live
       } else if (project && project.slug == item.project && !item.live){
           let load = element.querySelector('#load-button')
