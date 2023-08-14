@@ -56,6 +56,8 @@ const backButtons = document.querySelectorAll('.back-button');
       event.preventDefault();
       const targetId = event.target.href.split('#')[1];
       const targetElement = document.getElementById(targetId);
+      targetElement.scrollTo(0,0);
+      targetElement.classList.add('is-active');
       targetElement.addEventListener('transitionend', () => {
         targetElement.querySelector('.back-button').focus();
       });
@@ -68,6 +70,7 @@ const backButtons = document.querySelectorAll('.back-button');
     button.addEventListener('click', event => {
         event.preventDefault();
       const parentContainer = event.target.closest('.container');
+       parentContainer.classList.remove('is-active');
       const containerId = parentContainer.id;
       document.body.classList.remove(`${containerId}--open`);
     });
