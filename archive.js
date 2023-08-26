@@ -16,7 +16,14 @@ fetch(archive_url, {mode: 'cors'})
 
 
   async function buildArchive(jsonArray) {
-    let { project } = await browser.storage.local.get('project');
+    let { project, nextPopup } = await browser.storage.local.get(['project', 'nextPopup']);
+    // get live project slug
+    let live_project = null;
+    if (project && project.slug) {
+        live_project = project.slug
+    } else if (nextPopup && nextPopup.slug){
+        live_project = nextPopup.slug
+    }
     let index = 0;
     let header = document.createElement("h2");
     header.classList.add('box-header')
@@ -28,7 +35,7 @@ fetch(archive_url, {mode: 'cors'})
       var from = item.from;
       var img = item.img || "/placeholder.svg";
       from = from.replace(/-/g, '.');
-      if(project && project.slug && item.project == project.slug){
+      if(item.project == live_project){
         let live_header = document.createElement("h2");
         live_header.classList.add('box-header')
         live_header.innerHTML = 'Current Project';
@@ -53,7 +60,7 @@ fetch(archive_url, {mode: 'cors'})
         </div>
       </a>
       `;
-      if (project && project.slug && item.project == project.slug){
+      if (item.project == live_project){
         liveContainer.appendChild(element);
       } else if (!item.live) {
         archiveContainer.appendChild(element);
