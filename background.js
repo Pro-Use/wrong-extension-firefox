@@ -285,32 +285,34 @@ var create_alarms = async (force=false, refresh=false) => {
         } else if (!result.selfUpdated){
             await browser.storage.local.set({selfUpdated: today});
         }
-        // Sort popups by time
-        data.popups.sort((a, b) => a < b);
-        // Is first popup before load time?
-        let first_time = data.popups[0].time.split(":")
-        let first_date = new Date()
-        first_date.setHours(first_time[0], first_time[1], first_time[2])
-        let first_ts = first_date.getTime()
-        let { project } = await browser.storage.local.get('project')
-        let delay = 0
-        // If so add one day
-        if (project && project.start && project.start > first_ts){
-            delay = 1
+        if (data.popups.length > 0){
+            // Sort popups by time
+            data.popups.sort((a, b) => a < b);
+            // Is first popup before load time?
+            let first_time = data.popups[0].time.split(":")
+            let first_date = new Date()
+            first_date.setHours(first_time[0], first_time[1], first_time[2])
+            let first_ts = first_date.getTime()
+            let { project } = await browser.storage.local.get('project')
+            let delay = 0
+            // If so add one day
+            if (project && project.start && project.start > first_ts){
+                delay = 1
+            }
+            console.log('sorted popups', data.popups)
+            // Create alarms and store popup info
+            browser.alarms.clearAll();
+            data.popups.forEach( async function(popup){
+               let sdict = {};
+               sdict[popup.id] = popup;
+               browser.storage.local.set(sdict);
+               let time = popup.time.split(":");
+               let hour = time[0];
+               let min = time[1];
+               let secs = time[2]
+               await create_alarm(hour, min, secs, delay, popup.id);
+            });
         }
-        console.log('sorted popups', data.popups)
-        // Create alarms and store popup info
-        browser.alarms.clearAll();
-        data.popups.forEach( async function(popup){
-           let sdict = {};
-           sdict[popup.id] = popup;
-           browser.storage.local.set(sdict);
-           let time = popup.time.split(":");
-           let hour = time[0];
-           let min = time[1];
-           let secs = time[2]
-           await create_alarm(hour, min, secs, delay, popup.id);
-        });
         // log
         browser.alarms.getAll(function(alarms) {
             console.log("popups remaining: " + alarms.length)
