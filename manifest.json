@@ -2,6 +2,11 @@
   "name": "arebyte Plug in",
   "version": "3.1.4",
   "description": "arebyte browser extension",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{74c60f10-7542-4099-84d8-ddd93a5706ae}"
+    }
+  },
   "permissions": ["storage", "alarms", "idle"],
   "background": {
     "scripts": ["background.js"]
